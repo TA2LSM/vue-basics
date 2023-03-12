@@ -1,0 +1,123 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue-Firebase App</title>
+    <!-- <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> -->
+    <script src="https://unpkg.com/vue@3.0.2"></script>
+    <link rel="stylesheet" href="style.css"></link>
+</head>
+<body>
+    <h1>VueJs Examples</h1>
+
+    <div id="vueSection1">       
+        <!-- v-if removes this div below from DOM if it is false. // BAD PERFORMANCE -->
+        <div v-if="showBooks">
+            <p>
+                <span style="margin-right: 10px;">
+                    <button @click="toggleShowBooks" style="margin-right: 10px;">
+                        <span v-if="showBooks">Hide Books</span>
+                        <span v-else>Show Books</span>
+                        <!-- <span v-if="!showBooks">Show Books</span> -->
+                    </button>
+                </span>
+    
+                <!-- v-show uses CSS to hide this span below (style="display: none") // GOOD PERFORMANCE-->
+                <span v-show="showBooks">Showing books...</span>
+            </p>
+
+            <h2>{{title}} - {{author}} / {{age}}</h2>
+
+            <p>
+                <span style="margin-right: 10px;">Age:</span>
+                <button style="margin-right: 10px;" v-on:click="age++">Increase</button>
+                <button v-on:click="age--">Decrease</button>
+            </p>
+        
+            <p>
+                <button style="margin-right: 10px;" @click="changeTitle">Change Title</button>
+                <button @click="changeTitle2('Jack')">Change Title as Jack</button>
+            </p>
+        </div>
+
+        <!-- Mouse events... -->
+        <div v-show="showMouseEvents">
+            <!-- <div class="box" @mouseover="handleEvents">Mouse Over</div> -->
+            <!-- "event" must be the first argument if we want to pass parameters to this method -->
+            <div class="box" @mouseover="handleEvents($event, 5)">Mouse Over</div>
+
+            <div class="box" @mouseleave="handleEvents">Mouse Leave</div>
+            <div class="box" @dblclick="handleEvents">Double Click</div>
+            <div class="box" @mousemove="handleMouseMove">Position ({{posX}}, {{posY}})</div>
+        </div>
+
+        <!-- Lists -->
+        <div v-show="showLists">
+            <ul>
+                <li v-for="book in listOfBooks">
+                    <h3>{{book.title}}</h3>
+                    <p>{{book.author}}</p>
+                    <img :src="book.img" :alt="book.title" style="height: 150px; width: 100px;">
+                </li>
+            </ul>
+        </div>
+ 
+        <!-- Attribute Binding -->
+        <div v-show="showAttributeBinding">
+            <!-- These two lines below are identical -->
+            <!-- <a v-bind:href="myUrl">Google</a> -->
+            <a :href="myUrl">Google</a>
+        </div>
+
+        <!-- Dynamic Classes -->
+        <div v-show="showDynamicClasses">
+            <ul>
+                <!-- "":class" is adding "class" to list item, if book is favourite -->
+                <li v-for="book in listOfBooks" :class="{ fav: book.isFavourite }" @click="toggleFavourite(book)">
+                    <img :src="book.img" :alt="book.title" style="height: 150px; width: 100px; padding: 10px;">
+                    <h3>{{book.title}}</h3>
+                    <p>{{book.author}}</p>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Computed properties -->
+        <!-- inserts computed information in "data()" section -->
+        <div v-show="showComputedProperties">
+            <span style="margin-right: 10px;">
+                <button @click="toggleFilteredBooks" style="margin-right: 10px;">
+                    <span v-if="filteredBooksEn">Show All</span>
+                    <span v-else>Show Favourites</span>
+                    <!-- <span v-if="!showBooks">Show Books</span> -->
+                </button>
+            </span>
+
+            <ul>
+                <!-- "":class" is adding "class" to list item, if book is favourite -->
+                <li v-if="!filteredBooksEn" v-for="book in listOfBooks" :class="{ fav: book.isFavourite }" @click="toggleFavourite(book)">
+                    <img :src="book.img" :alt="book.title" style="height: 150px; width: 100px; padding: 10px;">
+                    <h3>{{book.title}}</h3>
+                    <p>{{book.author}}</p>
+                </li>
+                <li v-else v-for="book in filteredBooks" :class="{ fav: book.isFavourite }" @click="toggleFavourite(book)">
+                    <img :src="book.img" :alt="book.title" style="height: 150px; width: 100px; padding: 10px;">
+                    <h3>{{book.title}}</h3>
+                    <p>{{book.author}}</p>
+                </li>
+            </ul>
+        </div>        
+
+    </div>
+
+    <div id="vueSection2">
+        <div v-show="showSection2">
+            <hr>
+            {{text}}
+            <hr>
+        </div>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>
